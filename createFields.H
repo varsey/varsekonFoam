@@ -68,8 +68,6 @@
         mesh
     );
 
-    Info<< "Reading field j\n" << endl;
-
     Info<< "Reading DCdict\n" << endl;
 
     IOdictionary DCdict
@@ -92,7 +90,7 @@
         DCdict.lookup("DC")
     );
 
-    Info<< "Reading A B d Ce\n" << endl;
+    Info<< "Reading constants: A B d\n" << endl;
 
     dimensionedScalar A
     (
@@ -109,10 +107,8 @@
         DCdict.lookup("d")
     );
 
-    dimensionedScalar kb
-    (
-        DCdict.lookup("kb")
-    );
+    Info<< "Reading fields: rho nu\n" << endl;
+
     dimensionedScalar rho
     (
         DCdict.lookup("rho")

@@ -78,8 +78,7 @@ int main(int argc, char *argv[])
                 fvm::ddt(Cp)
               + fvm::div(phi, Cp)
               - fvm::laplacian(DC+turbulence->nut()/nu*0.01*DC, Cp)
-			//- fvm::laplacian((kb*T/(scalar(3.14)*scalar(3.14)*rho*d*turbulence->nu()))+turbulence->nut()/0.7, Cp)
-             ==
+	     ==
                 fvOptions(Cp)
             );
         }
@@ -116,8 +115,6 @@ int main(int argc, char *argv[])
 	{
 		C.write();
     	}
-
-//	Info<< "(kb*T/(scalar(3.14)*scalar(3.14)*d*rho*turbulence->nu())))\n" << endl;
 
         runTime.write();
 
