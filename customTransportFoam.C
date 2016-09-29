@@ -111,7 +111,18 @@ int main(int argc, char *argv[])
 					}						  
 			}	
 	}
-	
+////////////////////////////////////////////////////////
+    scalar meanDiNum = 0.0;
+
+    surfaceScalarField DeffInterpolated
+    (
+        fvc::interpolate(DEff)
+      / mesh.surfaceInterpolation::deltaCoeffs()
+    );
+
+    meanDiNum = (average(DeffInterpolated)).value()*runTime.deltaT().value();
+
+/////////////////////////////////////////////////
 
 	if(runTime.outputTime())
 	{
@@ -123,6 +134,7 @@ int main(int argc, char *argv[])
 
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
+		<< nl << " Diffusion Number mean: " << meanDiNum //DIFFUSION NUMBER OUTPUT!!!
             << nl << endl;
     }
 
