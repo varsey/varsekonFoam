@@ -89,6 +89,14 @@
     (
         DCdict.lookup("DC")
     );
+    dimensionedScalar Sc
+    (
+        DCdict.lookup("Sc")
+    );
+    dimensionedScalar Sct
+    (
+        DCdict.lookup("Sct")
+    );
 
     Info<< "Reading constants: A B d\n" << endl;
 

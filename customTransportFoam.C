@@ -58,6 +58,8 @@ int main(int argc, char *argv[])
 	#include "CourantNo.H"
         #include "readTimeControls.H"
         #include "setDeltaT.H"  //correct timestep
+	
+	volScalarField DEff("DEff", turbulence->nu()/Sc + turbulence->nut()/Sct);
 
         while (simple.correctNonOrthogonal())
         {
@@ -65,7 +67,7 @@ int main(int argc, char *argv[])
             (
                 fvm::ddt(C)
               + fvm::div(phi, C)
-              - fvm::laplacian(DC+turbulence->nut()/nu*0.01*DC, C)
+              - fvm::laplacian(DEff, C)
              ==
                 fvOptions(C)
             );
@@ -77,7 +79,7 @@ int main(int argc, char *argv[])
             (
                 fvm::ddt(Cp)
               + fvm::div(phi, Cp)
-              - fvm::laplacian(DC+turbulence->nut()/nu*0.01*DC, Cp)
+              - fvm::laplacian(DEff, Cp)
 	     ==
                 fvOptions(Cp)
             );
@@ -114,6 +116,7 @@ int main(int argc, char *argv[])
 	if(runTime.outputTime())
 	{
 		C.write();
+		DEff.write();
     	}
 
         runTime.write();
