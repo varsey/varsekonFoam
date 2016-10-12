@@ -85,9 +85,6 @@ int main(int argc, char *argv[])
             );
         }
 
-	volScalarField Cs = A*pow(10,scalar(6.21)-B/T); //calculating Cs
-
-	
 	forAll(C,celli)
 	{
 		if(C[celli] > Cs[celli])	//is Cs>Ccurrent?
