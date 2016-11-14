@@ -84,7 +84,8 @@ int main(int argc, char *argv[])
                 fvOptions(Cp)
             );
         }
-
+//if (oCorr == nOuterCorr-1)
+//{
 	forAll(C,celli)
 	{
 		if(C[celli] > Cs[celli])	//is Cs>Ccurrent?
@@ -108,6 +109,7 @@ int main(int argc, char *argv[])
 					}						  
 			}	
 	}
+//}
 ////////////////////////////////////////////////////////
     scalar DiNum = 0.0;
     scalar meanDiNum = 0.0;
@@ -130,14 +132,14 @@ Info<< "Calculating kc and Sh" << endl;
 
 label patchi = mesh.boundaryMesh().findPatchID("lowerWall");
 
-    surfaceScalarField CInterpolated
+    surfaceScalarField CpInterpolated
     (
-        fvc::interpolate(C)
+        fvc::interpolate(Cp)
       / mesh.surfaceInterpolation::deltaCoeffs()
     );
 
 // kc = 1 / Tb * D * (dT/dy)_wall
-kc.boundaryField()[patchi] = 1/(average(CInterpolated)).value()*(average(DeffInterpolated)).value()*-C.boundaryField()[patchi].snGrad();
+kc.boundaryField()[patchi] = 1/(average(CpInterpolated)).value()*(average(DeffInterpolated)).value()*-Cp.boundaryField()[patchi].snGrad();
 
 // Calculates average kc
 
