@@ -21,7 +21,7 @@
             runTime.timeName(),
             mesh,
             IOobject::MUST_READ,
-            IOobject::AUTO_WRITE
+            IOobject::NO_WRITE
         ),
         mesh
     );
@@ -82,6 +82,25 @@
             IOobject::AUTO_WRITE
         ),
         A*pow(10,scalar(6.21)-B/T)
+    );
+
+    volScalarField kc
+    (
+        IOobject
+        (
+            "kc",
+            runTime.timeName(),
+            mesh,
+            IOobject::NO_READ,
+            IOobject::AUTO_WRITE
+        ),
+        mesh,
+        dimensionedScalar
+        (
+            "kc",
+            DC.dimensions()/dimLength,
+            0
+        )
     );
 
 #   include "createPhi.H"

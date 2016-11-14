@@ -1,0 +1,112 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.6                                   |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      j;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 -1 0 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    solid_0_solid_0_face_1
+    {
+        type            symmetry;
+    }
+    solid_0_solid_0_face_2
+    {
+          type            calculated;
+        gradient	uniform -0.001;
+    }
+    solid_0_solid_0_face_3
+    {
+        type            calculated;
+    }
+    solid_0_solid_0_face_0
+    {
+        type            calculated;
+    }
+    solid_0_solid_0_face_4
+    {
+        type            calculated;
+    }
+    solid_0_solid_0_face_5
+    {
+        type            calculated;
+    }
+    solid_0_solid_0_face_6
+    {
+        type            calculated;
+    }
+    solid_0_solid_0_face_7
+    {
+        type            calculated;
+    }
+    solid_0_solid_0_face_8
+    {
+        type            calculated;
+    }
+    solid_0_solid_0_face_9
+    {
+        type            calculated;
+    }
+    solid_0_solid_0_face_10
+    {
+        type            calculated;
+    }
+    solid_0_solid_0_face_11
+    {
+        type            calculated;
+    }
+    solid_0_solid_0_face_12
+    {
+        type            calculated;
+        value           uniform (0 0 0);
+    }
+   inlet
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    wall
+    {
+        type            calculated;
+    }
+    outlet
+    {
+        type            calculated;//fixedValue;
+    }
+    tube
+    {
+        type            calculated;
+    }
+    bottom
+    {
+        type            calculated;
+    }
+    heater1
+    {
+        type            calculated;
+    }
+    heater2
+    {
+        type            calculated;
+    }
+    wall5
+    {
+        type            calculated;
+    }
+}
+
+// ************************************************************************* //

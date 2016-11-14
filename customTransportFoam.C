@@ -109,6 +109,7 @@ int main(int argc, char *argv[])
 			}	
 	}
 ////////////////////////////////////////////////////////
+    scalar DiNum = 0.0;
     scalar meanDiNum = 0.0;
 
     surfaceScalarField DeffInterpolated
@@ -117,7 +118,57 @@ int main(int argc, char *argv[])
       / mesh.surfaceInterpolation::deltaCoeffs()
     );
 
+    DiNum = gMax(DeffInterpolated.internalField())*runTime.deltaT().value();
+
     meanDiNum = (average(DeffInterpolated)).value()*runTime.deltaT().value();
+
+    Info<< "Diffusion Number mean: " << meanDiNum << " max: " << DiNum << endl; //    return DiNum;
+
+////////////////////////////////////////////////////////
+
+Info<< "Calculating kc and Sh" << endl;
+
+label patchi = mesh.boundaryMesh().findPatchID("lowerWall");
+
+    surfaceScalarField CInterpolated
+    (
+        fvc::interpolate(C)
+      / mesh.surfaceInterpolation::deltaCoeffs()
+    );
+
+// kc = 1 / Tb * D * (dT/dy)_wall
+kc.boundaryField()[patchi] = 1/(average(CInterpolated)).value()*(average(DeffInterpolated)).value()*-C.boundaryField()[patchi].snGrad();
+
+// Calculates average kc
+
+		scalar area = gSum(mesh.magSf().boundaryField()[patchi]);
+                scalar sumField = 0;
+
+                if (area > 0)
+                {
+                    sumField = gSum
+                    (
+                        mesh.magSf().boundaryField()[patchi]
+                      * kc.boundaryField()[patchi]
+                    )/ area;
+                }
+
+
+                Info<< "    Average kc over patch heater = "   << sumField << endl;
+
+           volScalarField Sh_new
+           (
+                IOobject
+                (
+                    "Sh_new",
+                    runTime.timeName(),
+                    mesh,
+                    IOobject::NO_READ,
+                    IOobject::AUTO_WRITE
+                ),
+// Sh = kc * d / DT
+		kc*d/(average(DeffInterpolated)).value()
+           );
 
 /////////////////////////////////////////////////
 
@@ -131,7 +182,6 @@ int main(int argc, char *argv[])
 
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
-		<< nl << " Diffusion Number mean: " << meanDiNum //DIFFUSION NUMBER OUTPUT!!!
             << nl << endl;
     }
 
