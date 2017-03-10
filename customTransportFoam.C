@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
     surfaceScalarField DeffInterpolated
     (
         fvc::interpolate(DEff)
-      / mesh.surfaceInterpolation::deltaCoeffs()
+      * mesh.surfaceInterpolation::deltaCoeffs()
     );
 
     DiNum = gMax(DeffInterpolated.internalField())*runTime.deltaT().value();
